@@ -4,10 +4,9 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './MainPage.css';
 
-// 🌟 로고 이미지 임포트
+
 import logoImg from '../assets/logo.png';
 
-// 🌟 그래프 라이브러리 임포트
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 const MainPage = () => {
@@ -24,7 +23,6 @@ const MainPage = () => {
     const [friendEmailInput, setFriendEmailInput] = useState('');
     const [friendNicknameInput, setFriendNicknameInput] = useState('');
 
-    // 📊 그래프용 데이터
     const chartData = [
         { name: '월', 성공: 2, 실패: 1 },
         { name: '화', 성공: 4, 실패: 0 },
@@ -37,15 +35,12 @@ const MainPage = () => {
 
     const email = localStorage.getItem('userEmail');
 
-    // 🌟 [추가] 로그아웃 핸들러
     const handleLogout = () => {
         if (!window.confirm("정말 로그아웃하시겠습니까?")) return;
 
-        // 로컬 스토리지 데이터 삭제
         localStorage.removeItem('token');
         localStorage.removeItem('userEmail');
 
-        // 로그인 페이지로 강제 이동
         window.location.href = '/login';
     };
 

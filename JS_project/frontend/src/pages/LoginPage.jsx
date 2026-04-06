@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Auth.css';
-import logoImg from '../assets/logo.png'; // 🌟 이미지 경로를 확인하세요!
+import logoImg from '../assets/logo.png';
 
 const LoginPage = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });

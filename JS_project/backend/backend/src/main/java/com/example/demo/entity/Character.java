@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "game_characters") // 👈 DB 테이블명과 일치
+@Table(name = "game_characters")
 @Getter @Setter
 public class Character {
     @Id
@@ -17,5 +17,5 @@ public class Character {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Users user; // 클래스명을 Users로 수정했으므로 타입 변경
+    private Users user;
 }

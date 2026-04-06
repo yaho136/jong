@@ -8,7 +8,6 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    // 실제 서비스에서는 환경변수로 관리해야 하지만, 과제용으로 간단히 설정합니다.
     private final String SECRET_KEY = "your-very-very-secret-key-must-be-very-long-and-secure";
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     private final long EXPIRATION_TIME = 86400000; // 토큰 유효기간: 24시간

@@ -121,7 +121,6 @@ public class UserService {
         return "지인 삭제 완료";
     }
 
-    // 🌟 [추가] 지인들에게 실패 알림 메일을 발송하는 메서드
     public void notifyFriendsOfFailure(Users user, String todoTitle) {
         List<Friend> friends = friendRepository.findByUser(user);
         if (friends.isEmpty()) return;

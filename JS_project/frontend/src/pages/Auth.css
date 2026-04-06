@@ -1,4 +1,4 @@
-/* 🌟 1. 게임 전용 폰트 불러오기 */
+
 @font-face {
     font-family: 'DungGeunMo';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
@@ -23,12 +23,11 @@
     border: 4px solid #f1c40f;
     box-shadow: 0 0 30px rgba(241, 196, 15, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.6);
     width: 100%;
-    max-width: 480px; /* 카드를 조금 더 넓게 설정 */
+    max-width: 480px;
     text-align: center;
     box-sizing: border-box;
 }
 
-/* 🌟 [핵심] 로고 이미지 크기 및 배경 무늬 보완 */
 .auth-logo-container {
     width: 100%;
     margin-bottom: 10px;
@@ -37,12 +36,11 @@
 }
 
 .auth-logo-img {
-    width: 110%; /* 🌟 크기를 기존보다 더 키웠습니다 */
+    width: 110%;
     max-width: 420px;
     height: auto;
-    /* 🌟 바둑판 무늬가 있다면, 배경과 섞이도록 살짝 필터 처리 */
     filter: drop-shadow(0 0 15px rgba(0,0,0,0.9));
-    image-rendering: pixelated; /* 픽셀 느낌 강조 */
+    image-rendering: pixelated;
 }
 
 .auth-sub-title {

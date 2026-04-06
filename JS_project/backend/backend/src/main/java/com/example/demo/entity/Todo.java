@@ -14,12 +14,12 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;          // 할 일 제목
-    private LocalDateTime deadline; // 마감 기한
-    private boolean isCompleted;   // 완료 여부
-    private boolean penalized;     // 패널티 처리 여부
+    private String title;
+    private LocalDateTime deadline;
+    private boolean isCompleted;
+    private boolean penalized;
 
     @ManyToOne
-    @JoinColumn(name = "user_id") // DB 테이블의 외래키 컬럼명
-    private Users user;            // 이 할 일을 등록한 사용자
+    @JoinColumn(name = "user_id")
+    private Users user;
 }

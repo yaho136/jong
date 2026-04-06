@@ -12,29 +12,28 @@ import java.util.Map; // 🌟 Map 사용을 위해 추가
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
-// 🌟 리액트 포트(5173) 허용 확인 완료
 @CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class UserController {
 
     private final UserService userService;
 
-    // 1. 회원가입 (기존과 동일)
+    // 1. 회원가입
     @PostMapping("/join")
     public String join(@RequestBody Users user) {
         return userService.join(user);
     }
 
-    // 2. 로그인 (🌟 @RequestBody Map으로 수정 - 400 에러 해결 핵심)
+    // 2. 로그인
     @PostMapping("/login")
     public String login(@RequestBody Map<String, String> loginData) {
         String email = loginData.get("email");
         String password = loginData.get("password");
 
-        System.out.println("로그인 시도 이메일: " + email); // 로그 확인용
+        System.out.println("로그인 시도 이메일: " + email);
         return userService.login(email, password);
     }
 
-    // 3. 이메일 인증 확인 (🌟 @RequestBody Map으로 수정)
+    // 3. 이메일 인증 확인
     @PostMapping("/verify")
     public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> verifyData) {
         String email = verifyData.get("email");
@@ -44,7 +43,7 @@ public class UserController {
         return isVerified ? ResponseEntity.ok("인증 성공") : ResponseEntity.badRequest().body("인증번호 불일치");
     }
 
-    // 4. 내 정보 조회 (GET 방식은 @RequestParam 유지)
+    // 4. 내 정보 조회
     @GetMapping("/info")
     public ResponseEntity<Users> getUserInfo(@RequestParam String email) {
         Users user = userService.getUserInfo(email);
@@ -57,7 +56,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getGlobalRanking());
     }
 
-    // 6. 지인 추가 (🌟 @RequestBody Map으로 수정)
+    // 6. 지인 추가
     @PostMapping("/friend/add")
     public ResponseEntity<?> addFriend(@RequestBody Map<String, String> friendData) {
         try {
@@ -72,7 +71,7 @@ public class UserController {
         }
     }
 
-    // 7. 지인 목록 조회 (GET 방식은 @RequestParam 유지)
+    // 7. 지인 목록 조회
     @GetMapping("/friend/list")
     public ResponseEntity<?> getFriendList(@RequestParam String email) {
         try {
@@ -82,7 +81,7 @@ public class UserController {
         }
     }
 
-    // 8. 지인 삭제 (기존과 동일)
+    // 8. 지인 삭제
     @DeleteMapping("/friend/{id}")
     public ResponseEntity<?> deleteFriend(@PathVariable Long id) {
         return ResponseEntity.ok(userService.deleteFriend(id));

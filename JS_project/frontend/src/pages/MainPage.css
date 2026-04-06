@@ -1,6 +1,3 @@
-/* =========================================
-   1. 기본 레이아웃 및 게임 전용 폰트
-   ========================================= */
 @font-face {
     font-family: 'DungGeunMo';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
@@ -20,17 +17,13 @@ h2, h3 {
     text-shadow: 2px 2px 0px #000;
 }
 
-/* 🌟 [수정] 메인 컨테이너 정렬 */
 .main-container {
     display: flex;
     gap: 25px;
-    align-items: flex-start; /* 🌟 핵심: 모든 칸이 자기 내용만큼의 높이만 가지게 함 */
+    align-items: flex-start;
     padding: 0 20px 40px;
 }
 
-/* =========================================
-   2. 📅 달력 섹션 (늘어남 방지 핵심)
-   ========================================= */
 .calendar-section {
     flex: 1;
     display: flex;
@@ -45,13 +38,12 @@ h2, h3 {
     padding: 15px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.5);
     width: 100% !important;
-    max-width: 400px; /* 🌟 달력이 너무 커지지 않게 제한 */
+    max-width: 400px;
 }
 
-/* 달력 날짜 칸 높이 고정 */
 .react-calendar__tile {
     color: white !important;
-    height: 60px !important; /* 🌟 칸 높이를 딱 고정해서 늘어나지 않게 함 */
+    height: 60px !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,7 +55,6 @@ h2, h3 {
 .react-calendar__tile--now { background: rgba(241, 196, 15, 0.2) !important; }
 .react-calendar__tile--active { background: #e74c3c !important; color: white !important; }
 
-/* 🌟 퀘스트 점 및 툴팁 */
 .quest-indicator-wrapper {
     position: absolute;
     bottom: 5px;
@@ -103,9 +94,6 @@ h2, h3 {
     transform: translateX(-50%) translateY(0);
 }
 
-/* =========================================
-   3. 캐릭터 & 퀘스트 입력 섹션
-   ========================================= */
 .character-container {
     background: #2c3e50;
     border: 3px solid #f1c40f;
@@ -179,9 +167,6 @@ h2, h3 {
     cursor: pointer;
 }
 
-/* =========================================
-   4. 사이드바 (감시자 & 랭킹)
-   ========================================= */
 .side-card {
     background: #2c3e50;
     padding: 20px;
