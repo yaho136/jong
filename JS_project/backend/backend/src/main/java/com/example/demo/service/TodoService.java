@@ -8,9 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime; // 🌟 시간 설정을 위해 추가
-import java.util.List;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,28 +22,24 @@ public class TodoService {
     private final UsersRepository usersRepository;
     private final UserService userService;
 
-    // 1. 투두 리스트 조회
+    // 1. 리스트 조회
     public List<Todo> getTodoList(String email) {
         return todoRepository.findByUser_Email(email);
     }
 
-    // 2. 투두 추가 (🌟 마감 시간 보정 로직 추가)
+    // 2. 퀘스트 추가
     @Transactional
     public void addTodo(String email, Todo todo) {
         Users user = usersRepository.findByEmail(email).orElseThrow();
         todo.setUser(user);
         todo.setCompleted(false);
-
-        // ✅ 수정: 사용자가 날짜만 선택해 오더라도, 시간을 해당 날짜의 가장 마지막(23:59:59)으로 맞춥니다.
-        // 이렇게 해야 23일 할 일을 24일 아침 9시에 체크할 수 있습니다.
         if (todo.getDeadline() != null) {
             todo.setDeadline(todo.getDeadline().with(LocalTime.MAX));
         }
-
         todoRepository.save(todo);
     }
 
-    // 3. 투두 완료 처리 및 경험치 부여
+    // 3. 퀘스트 완료
     @Transactional
     public void completeTodo(Long id) {
         Todo todo = todoRepository.findById(id).orElseThrow();
@@ -53,45 +50,54 @@ public class TodoService {
         }
     }
 
-    // 4. 기한 지난 미완료 항목 처리 (🌟 매일 오전 9시에 호출됨)
+    // 🌟 4. [복구됨] 기한 지난 미완료 항목 처리 (스케줄러용)
     @Transactional
     public void checkExpiredTodos() {
-        LocalDateTime now = LocalDateTime.now(); // 현재 시간 (오전 9시)
-
-        // 완료되지 않은 투두만 가져오기
+        LocalDateTime now = LocalDateTime.now();
         List<Todo> unfinishedTodos = todoRepository.findByIsCompletedFalse();
 
-        // ✅ 로직 설명:
-        // 오전 9시 기준으로, 마감 시간(어제 밤 23:59:59)이 현재보다 이전인 항목들을 필터링합니다.
         List<Todo> expiredTodos = unfinishedTodos.stream()
                 .filter(t -> t.getDeadline() != null && t.getDeadline().isBefore(now))
                 .collect(Collectors.toList());
 
-        if (expiredTodos.isEmpty()) {
-            System.out.println("✅ [" + now + "] 패널티 부여할 항목 없음");
-            return;
-        }
+        if (expiredTodos.isEmpty()) return;
 
         for (Todo todo : expiredTodos) {
             Users user = todo.getUser();
-
-            // 1. 패널티 부여 (경험치 차감)
-            userService.addExperience(user, -50);
-
-            // 2. 지인들에게 "어제 완료하지 못한 퀘스트" 알림 발송
-            userService.notifyFriendsOfFailure(user, todo.getTitle());
-
-            // 3. 중복 처리 방지 (완료 상태로 변경하여 다음 날 다시 알림 가는 것 방지)
+            userService.addExperience(user, -50); // 패널티
+            userService.notifyFriendsOfFailure(user, todo.getTitle()); // 고자질 알림
             todo.setCompleted(true);
+            todo.setPenalized(true); // 🌟 통계에서 '실패'로 잡기 위해 true 설정
             todoRepository.save(todo);
-
-            System.out.println("🔔 [" + user.getNickname() + "]님의 어제자 실패 알림이 전송되었습니다.");
         }
-
-        System.out.println("⚠️ [" + now + "] 총 " + expiredTodos.size() + "건의 실패 리포트 발송 완료");
     }
 
-    // 5. 투두 수정
+    // 🌟 5. [신규] 주간 통계 데이터 계산 (차트용)
+    public List<Map<String, Object>> getWeeklyStats(String email) {
+        LocalDateTime start = LocalDateTime.now().minusDays(6).with(LocalTime.MIN);
+        LocalDateTime end = LocalDateTime.now().with(LocalTime.MAX);
+
+        List<Todo> weeklyTodos = todoRepository.findByUser_EmailAndDeadlineBetween(email, start, end);
+        List<Map<String, Object>> stats = new ArrayList<>();
+
+        for (int i = 6; i >= 0; i--) {
+            LocalDate date = LocalDate.now().minusDays(i);
+            long success = weeklyTodos.stream()
+                    .filter(t -> t.getDeadline().toLocalDate().equals(date) && t.isCompleted() && !t.isPenalized())
+                    .count();
+            long fail = weeklyTodos.stream()
+                    .filter(t -> t.getDeadline().toLocalDate().equals(date) && t.isPenalized())
+                    .count();
+
+            Map<String, Object> dayData = new HashMap<>();
+            dayData.put("name", date.getMonthValue() + "/" + date.getDayOfMonth());
+            dayData.put("성공", success);
+            dayData.put("실패", fail);
+            stats.add(dayData);
+        }
+        return stats;
+    }
+
     @Transactional
     public void updateTodoTitle(Long id, String newTitle) {
         Todo todo = todoRepository.findById(id).orElseThrow();

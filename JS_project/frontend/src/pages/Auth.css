@@ -1,0 +1,121 @@
+/* 🌟 1. 게임 전용 폰트 불러오기 */
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #2d3436 0%, #1e272e 100%);
+    font-family: 'DungGeunMo', sans-serif;
+    padding: 20px;
+}
+
+.auth-card {
+    background-color: #2c3e50;
+    padding: 40px;
+    border-radius: 10px;
+    border: 4px solid #f1c40f;
+    box-shadow: 0 0 30px rgba(241, 196, 15, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.6);
+    width: 100%;
+    max-width: 480px; /* 카드를 조금 더 넓게 설정 */
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* 🌟 [핵심] 로고 이미지 크기 및 배경 무늬 보완 */
+.auth-logo-container {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.auth-logo-img {
+    width: 110%; /* 🌟 크기를 기존보다 더 키웠습니다 */
+    max-width: 420px;
+    height: auto;
+    /* 🌟 바둑판 무늬가 있다면, 배경과 섞이도록 살짝 필터 처리 */
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.9));
+    image-rendering: pixelated; /* 픽셀 느낌 강조 */
+}
+
+.auth-sub-title {
+    margin-bottom: 25px;
+    color: #f1c40f;
+    font-size: 1.4rem;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 25px;
+    border: 1px solid #f1c40f;
+    display: inline-block;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.auth-form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.auth-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #bdc3c7;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 15px;
+    background-color: #1e272e;
+    border: 2px solid #7f8c8d;
+    color: white;
+    font-size: 1.1rem;
+    font-family: 'DungGeunMo', sans-serif;
+    box-sizing: border-box;
+}
+
+.auth-input:focus {
+    border-color: #e74c3c;
+    outline: none;
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.6);
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(180deg, #f1c40f 0%, #d35400 100%);
+    color: #2d3436;
+    border: 3px solid #b8860b;
+    border-radius: 4px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-family: 'DungGeunMo', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #b8860b;
+    margin-top: 15px;
+}
+
+.auth-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #b8860b;
+}
+
+.auth-footer {
+    margin-top: 30px;
+    font-size: 1rem;
+    color: #bdc3c7;
+}
+
+.auth-footer-link a {
+    color: #00cec9;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00cec9;
+}

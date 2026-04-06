@@ -1,133 +1,57 @@
 /* =========================================
-   1. 기본 레이아웃 및 폰트
+   1. 기본 레이아웃 및 게임 전용 폰트
    ========================================= */
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-    background-color: #f0f2f5;
+    background: radial-gradient(circle, #2d3436 0%, #1e272e 100%);
     margin: 0;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    color: #2d3436;
+    font-family: 'DungGeunMo', sans-serif;
+    color: #f1c40f;
 }
 
-h2 {
-    color: #2d3436 !important;
-    margin-bottom: 20px;
+h2, h3 {
+    color: #f1c40f !important;
+    text-shadow: 2px 2px 0px #000;
 }
 
-.loading {
+/* 🌟 [수정] 메인 컨테이너 정렬 */
+.main-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #00cec9;
+    gap: 25px;
+    align-items: flex-start; /* 🌟 핵심: 모든 칸이 자기 내용만큼의 높이만 가지게 함 */
+    padding: 0 20px 40px;
 }
 
 /* =========================================
-   2. 캐릭터 성장 섹션
+   2. 📅 달력 섹션 (늘어남 방지 핵심)
    ========================================= */
-.character-container {
+.calendar-section {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 30px;
-    background: white;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 }
 
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
-}
-
-.character-img {
-    width: 120px;
-    height: 120px;
-    animation: float 3s ease-in-out infinite;
-    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.1));
-}
-
-.character-rank {
-    margin-top: 15px;
-    padding: 6px 18px;
-    background-color: #00cec9;
-    color: white;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-/* =========================================
-   3. 퀘스트(투두) 리스트 스타일
-   ========================================= */
-.todo-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px;
-    background: white;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-
-.edit-input {
-    width: 90%;
-    padding: 8px;
-    border: 2px solid #00cec9;
-    border-radius: 6px;
-    outline: none;
-}
-
-.btn-edit { background-color: #b2bec3; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
-.btn-complete { background-color: #00b894; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
-
-/* =========================================
-   4. 사이드바 카드 (지인 목록 & 랭킹)
-   ========================================= */
-.side-card {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    margin-bottom: 10px;
-}
-
-.friend-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #f1f1f1;
-}
-
-.friend-lv {
-    color: #0984e3;
-    font-weight: bold;
-    background: #e1f5fe;
-    padding: 2px 8px;
-    border-radius: 10px;
-}
-
-/* =========================================
-   5. 📅 달력 및 툴팁 스타일 (최종 최적화)
-   ========================================= */
 .react-calendar {
-    border: none !important;
-    background-color: white !important;
-    border-radius: 15px;
+    border: 3px solid #f1c40f !important;
+    background-color: #2c3e50 !important;
+    border-radius: 5px;
     padding: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
     width: 100% !important;
+    max-width: 400px; /* 🌟 달력이 너무 커지지 않게 제한 */
 }
 
+/* 달력 날짜 칸 높이 고정 */
 .react-calendar__tile {
-    color: #2d3436 !important;
-    height: 70px;
+    color: white !important;
+    height: 60px !important; /* 🌟 칸 높이를 딱 고정해서 늘어나지 않게 함 */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -136,387 +60,177 @@ h2 {
     overflow: visible !important;
 }
 
-/* 🌟 말풍선 툴팁 */
-.calendar-tooltip {
-    display: none;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-10px);
-    background-color: rgba(45, 52, 54, 0.95);
-    color: white;
-    padding: 10px 14px; /* 🌟 텍스트만 있으므로 여백을 조금 더 줌 */
-    border-radius: 8px;
-    font-size: 0.75rem; /* 🌟 가독성을 위해 살짝 키움 */
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    min-width: 100px;
-    pointer-events: none;
-}
+.react-calendar__tile--now { background: rgba(241, 196, 15, 0.2) !important; }
+.react-calendar__tile--active { background: #e74c3c !important; color: white !important; }
 
-.react-calendar__tile:hover .calendar-tooltip {
-    display: block;
-    animation: tooltipFadeIn 0.2s ease-out;
-}
-
-.calendar-tooltip::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: rgba(45, 52, 54, 0.95) transparent transparent transparent;
-}
-
-.tooltip-item {
-    white-space: nowrap;
-    text-align: center; /* 🌟 이모티콘이 없으므로 중앙 정렬이 더 예쁨 */
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding: 4px 0; /* 🌟 상하 간격 살짝 늘림 */
-}
-
-.tooltip-item:last-child { border-bottom: none; }
-
-@keyframes tooltipFadeIn {
-    from { opacity: 0; transform: translateX(-50%) translateY(0); }
-    to { opacity: 1; transform: translateX(-50%) translateY(-10px); }
-}
-
-/* 달력 기타 스타일 */
-.react-calendar__navigation button {
-    color: #2d3436 !important;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.react-calendar__month-view__weekdays {
-    color: #636e72 !important;
-    font-weight: bold;
-}
-
-.react-calendar__tile--now { background: #ffffd4 !important; border-radius: 12px; }
-.react-calendar__tile--active { background: #007bff !important; color: white !important; border-radius: 12px; }
-
-.react-calendar__tile.highlight-quest {
-    background: #e0fbff !important;
-    color: #00cec9 !important;
-    font-weight: bold;
-}
-
-.react-calendar__tile.highlight-quest::after {
-    content: "●";
-    position: absolute;
-    bottom: 8px;
-    color: #00cec9;
-}
-
-.react-calendar__month-view__weekdays__weekday:nth-child(7) { color: #ff4d4d !important; }
-
-/* =========================================
-   6. 모달 스타일
-   ========================================= */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85);
-    display: flex; justify-content: center; align-items: center; z-index: 9999;
-}
-
-.modal-content {
-    background: white;
-    padding: 50px;
-    border-radius: 30px;
-    text-align: center;
-}
-
-/* 1. 달력 칸 설정 (필수!) */
-.react-calendar__tile {
-    position: relative !important; /* 내부 요소의 absolute 기준점 */
-    overflow: visible !important; /* 툴팁이 삐져나올 수 있게 허용 */
-    height: 60px; /* 칸 높이 고정 */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-/* 2. 점과 툴팁을 담는 껍데기 */
+/* 🌟 퀘스트 점 및 툴팁 */
 .quest-indicator-wrapper {
     position: absolute;
     bottom: 5px;
     width: 100%;
     display: flex;
     justify-content: center;
-    pointer-events: none; /* 마우스 클릭 방해 금지 */
 }
 
-/* 3. 실제 보이는 점 */
 .quest-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    box-shadow: 0 0 4px rgba(0,0,0,0.2);
+    box-shadow: 0 0 4px rgba(0,0,0,0.5);
 }
 
-/* 4. 🌟 [핵심] 숨겨져 있다가 올라오는 툴팁 박스 */
 .quest-tooltip-box {
     position: absolute;
-    bottom: 150%; /* 점보다 한참 위에 배치 */
+    bottom: 150%;
     left: 50%;
-    transform: translateX(-50%) translateY(10px); /* 살짝 아래 대기 */
-    background-color: rgba(45, 52, 54, 0.98);
+    transform: translateX(-50%) translateY(10px);
+    background-color: #2d3436;
+    border: 2px solid #f1c40f;
     color: white;
     padding: 10px 15px;
-    border-radius: 12px;
+    border-radius: 0;
     width: 160px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
     z-index: 100;
-
-    /* 기본 상태: 숨김 */
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* 5. 마우스를 갖다 대면 올라오는 애니메이션 */
 .react-calendar__tile:hover .quest-tooltip-box {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
 }
 
-/* 6. 툴팁 내부 제목 */
-.tooltip-title {
-    font-size: 12px;
-    font-weight: bold;
-    color: #00cec9;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 6px;
-    padding-bottom: 4px;
+/* =========================================
+   3. 캐릭터 & 퀘스트 입력 섹션
+   ========================================= */
+.character-container {
+    background: #2c3e50;
+    border: 3px solid #f1c40f;
+    padding: 20px;
     text-align: center;
+    margin-bottom: 20px;
 }
 
-/* 7. 툴팁 리스트 */
-.tooltip-list {
-    font-size: 11px;
-    text-align: left;
-    max-height: 100px;
-    overflow-y: auto;
+.character-img {
+    width: 100px;
+    height: 100px;
+    animation: float 3s ease-in-out infinite;
 }
 
-.tooltip-todo {
-    margin-bottom: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
 
-/* 8. 툴팁 꼬리(화살표) */
-.tooltip-tail {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: rgba(45, 52, 54, 0.98) transparent transparent transparent;
+.stats-box {
+    background: #2c3e50;
+    border: 2px solid #f1c40f;
+    padding: 15px;
+    margin-bottom: 20px;
 }
 
-/* --- 지인 목록 관련 스타일 --- */
+.progress-bar-bg {
+    background-color: #1e272e;
+    height: 12px;
+}
+
+.progress-bar-fill {
+    background: linear-gradient(90deg, #00cec9, #81ecec);
+    box-shadow: 0 0 10px #00cec9;
+}
+
+.todo-item {
+    background: #34495e;
+    border: 2px solid #f1c40f;
+    border-left: 8px solid #e74c3c;
+    padding: 15px;
+    margin-bottom: 12px;
+    color: white;
+}
+
+.quest-add-form {
+    background: #34495e;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #7f8c8d;
+}
+
+.quest-input {
+    flex: 1;
+    background: #1e272e;
+    border: 1px solid #7f8c8d;
+    color: #00cec9;
+    padding: 10px;
+    font-family: 'DungGeunMo';
+}
+
+.quest-add-btn {
+    background: linear-gradient(180deg, #f1c40f 0%, #d35400 100%);
+    color: #2d3436;
+    border: 2px solid #b8860b;
+    padding: 0 20px;
+    font-family: 'DungGeunMo';
+    cursor: pointer;
+}
+
+/* =========================================
+   4. 사이드바 (감시자 & 랭킹)
+   ========================================= */
+.side-card {
+    background: #2c3e50;
+    padding: 20px;
+    border: 3px solid #f1c40f;
+    margin-bottom: 20px;
+}
+
 .friend-item-wrapper {
-    position: relative; /* 툴팁 배치의 기준점 */
-    width: 100%;
-    margin-bottom: 5px;
+    position: relative;
+    margin-bottom: 10px;
 }
 
 .friend-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 10px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    transition: background 0.2s;
+    background: #34495e;
+    border: 1px solid #f1c40f;
 }
 
-.friend-item:hover {
-    background-color: #f1f2f6;
-}
-
-.friend-name {
-    font-weight: bold;
-    color: #2d3436;
-}
-
-.friend-level {
-    font-size: 0.75rem;
-    color: #636e72;
-}
-
-/* 🌟 [핵심] 지인 이메일 툴팁 박스 초기 상태 */
 .friend-tooltip-box {
     position: absolute;
-    bottom: 110%; /* 항목 위에 띄움 */
+    bottom: 110%;
     left: 50%;
-    transform: translateX(-50%) translateY(10px); /* 살짝 아래 대기 */
-    background-color: rgba(45, 52, 54, 0.98);
+    transform: translateX(-50%) translateY(10px);
+    background-color: #2d3436;
+    border: 2px solid #f1c40f;
     color: white;
-    padding: 10px 15px;
-    border-radius: 12px;
+    padding: 10px;
     width: 180px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-    z-index: 1000; /* 다른 요소보다 위에 배치 */
-
-    /* 🌟 평소에는 보이지 않게 처리 */
     opacity: 0;
     visibility: hidden;
-    pointer-events: none; /* 마우스 방해 금지 */
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s;
+    z-index: 1000;
 }
 
-/* 🌟 마우스 올렸을 때만 보이게 하는 마법 */
 .friend-item-wrapper:hover .friend-tooltip-box {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(0); /* 스르륵 올라옴 */
+    transform: translateX(-50%) translateY(0);
 }
 
-/* 툴팁 내부 스타일 */
-.tooltip-title {
-    font-size: 11px;
-    font-weight: bold;
-    color: #00cec9;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 6px;
-    padding-bottom: 4px;
-    text-align: center;
+.rank-item {
+    background: #1e272e;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #34495e;
 }
 
-.tooltip-email {
-    font-size: 12px;
-    word-break: break-all;
-    text-align: center;
-}
-
-.tooltip-tail {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
-    border-style: solid;
-    border-color: rgba(45, 52, 54, 0.98) transparent transparent transparent;
-}
-
-/* --- 1. 새 퀘스트 입력 폼 스타일 --- */
-.quest-add-form {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 25px;
-    background: #ffffff;
-    padding: 8px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.quest-input {
-    flex: 1;
-    padding: 12px 16px;
-    border: 2px solid #eee;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    outline: none;
-}
-
-.quest-input:focus {
-    border-color: #0984e3;
-    box-shadow: 0 0 8px rgba(9, 132, 227, 0.2);
-    background-color: #f8fbff;
-}
-
-.quest-add-btn {
-    padding: 0 25px;
-    background: linear-gradient(135deg, #0984e3, #007bff);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.quest-add-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(9, 132, 227, 0.4);
-}
-
-/* --- 2. 지인 추가 폼 스타일 --- */
-.friend-add-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.friend-input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.friend-input-group label {
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: #636e72;
-    margin-left: 4px;
-}
-
-.friend-input-group input {
-    padding: 10px 14px;
-    border: 1px solid #dfe6e9;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    transition: all 0.3s;
-    outline: none;
-}
-
-.friend-input-group input:focus {
-    border-color: #00cec9;
-    background-color: #f0fffe;
-}
-
-.friend-add-btn {
-    margin-top: 5px;
-    padding: 12px;
-    background: linear-gradient(135deg, #00cec9, #00b894);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 0.95rem;
-    cursor: pointer;
-    letter-spacing: 1px;
-    transition: all 0.3s;
-}
-
-.friend-add-btn:hover {
-    filter: brightness(1.1);
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 206, 201, 0.3);
-}
-
-/* --- 기타 레이아웃 보정 --- */
-.todo-item {
-    background: white;
-    margin-bottom: 12px;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
-    border-left: 5px solid #0984e3; /* 미완료 퀘스트 왼쪽 포인트 */
+.my-rank {
+    border: 2px solid #f1c40f !important;
 }

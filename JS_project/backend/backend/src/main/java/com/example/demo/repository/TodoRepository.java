@@ -22,4 +22,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     // 4. 기한이 지났고 미완료된 항목 조회 ✅ 수정됨
     List<Todo> findByDeadlineBeforeAndIsCompletedFalse(LocalDateTime now);
+
+    // 5. 주간 그래프
+    List<Todo> findByUser_EmailAndDeadlineBetween(String email, LocalDateTime start, LocalDateTime end);
 }
